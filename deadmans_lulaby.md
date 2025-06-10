@@ -91,8 +91,8 @@
 <h1>ARCADE 360</h1>
 
 <audio controls autoplay >
-  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.mp3" type="audio/mpeg">
-  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.mp3" type="audio/ogg">
+  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.mp3" type="audio/mp3">
+  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.ogv" type="audio/ogg">
   Tu navegador no soporta el audio de HTML5.
 </audio>
 

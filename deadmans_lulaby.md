@@ -90,9 +90,10 @@
 
 <h1>ARCADE 360</h1>
 
-<audio id="bg-music" loop autoplay muted>
+<audio id="bg-music" loop autoplay >
   <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.mp3" type="audio/mpeg">
-  Tu navegador no soporta el audio.
+  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.mp3" type="audio/ogg">
+  Tu navegador no soporta el audio de HTML5.
 </audio>
 
 <div id="score">PUNTUACIÓN: 0</div>
@@ -101,7 +102,7 @@
 <div id="game">
   <div id="frog"></div>
   <div id="game-over" class="overlay-text">¡GAME OVER!</div>
-  <div id="pause-text" class="overlay-text">⏸️ PAUSA</div>
+  <div id="pause-text" class="overlay-text">⏸ PAUSA</div>
 </div>
 
 <script>

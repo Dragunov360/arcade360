@@ -14,7 +14,7 @@
       text-align: center;
     }
 
-    h1, #score, #level, .overlay-text {
+    h1, #score, #level, .overlay-text, #audio-message {
       animation: glitch 1s infinite;
       text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff;
     }
@@ -42,7 +42,7 @@
       height: 40px;
       background-color: limegreen;
       border-radius: 50%;
-      background-image: url('FROG_SPRITE_URL'); /* Reemplaza por tu sprite */
+      background-image: url('FROG_SPRITE_URL'); /* Reemplaza con imagen de rana 8bit */
       background-size: cover;
     }
 
@@ -51,7 +51,7 @@
       width: 40px;
       height: 40px;
       background-color: red;
-      background-image: url('CAR_SPRITE_URL'); /* Reemplaza por tu sprite */
+      background-image: url('CAR_SPRITE_URL'); /* Reemplaza con imagen de coche 8bit */
       background-size: cover;
       left: 600px;
     }
@@ -76,6 +76,12 @@
       color: cyan;
     }
 
+    #audio-message {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ffcc00;
+    }
+
     @keyframes glitch {
       0% { transform: translate(0); opacity: 1; }
       20% { transform: translate(1px, -1px); }
@@ -90,19 +96,19 @@
 
 <h1>ARCADE 360</h1>
 
-<audio controls autoplay >
-  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.mp3" type="audio/mp3">
-  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.ogv" type="audio/ogg">
-  Tu navegador no soporta el audio de HTML5.
+<audio id="bg-music" loop autoplay muted>
+  <source src="Call of Duty_ Black Ops - Dead Ops Arcade song _Clockwork Squares_ James McCawley.mp3" type="audio/mpeg">
 </audio>
 
 <div id="score">PUNTUACIÓN: 0</div>
 <div id="level">NIVEL: 1</div>
 
+<div id="audio-message">🎵 Haz clic o presiona una tecla para activar el sonido</div>
+
 <div id="game">
   <div id="frog"></div>
   <div id="game-over" class="overlay-text">¡GAME OVER!</div>
-  <div id="pause-text" class="overlay-text">⏸ PAUSA</div>
+  <div id="pause-text" class="overlay-text">⏸️ PAUSA</div>
 </div>
 
 <script>
@@ -113,11 +119,12 @@
   const scoreDisplay = document.getElementById("score");
   const levelDisplay = document.getElementById("level");
   const bgMusic = document.getElementById("bg-music");
+  const audioMessage = document.getElementById("audio-message");
 
   let score = 0;
   let level = 1;
-  let lanes = 5;
-  let laneHeight = game.clientHeight / 10;
+  const lanes = 5;
+  let laneHeight = game.clientHeight / lanes;
   let currentLane = 0;
   let spawnInterval;
   let gameRunning = true;
@@ -128,8 +135,7 @@
     let laneColors = [];
     for (let i = 0; i < lanes; i++) {
       const percentTop = ((i + 1) / lanes) * 100;
-      const color = i < 5 ? "#111" : "#FFD700";
-      laneColors.push(`${color} ${100 - percentTop}%`);
+      laneColors.push(`#111 ${100 - percentTop}%`);
     }
     game.style.background = `linear-gradient(to top, ${laneColors.join(", ")})`;
   }
@@ -137,7 +143,6 @@
   function resetGame() {
     score = 0;
     level = 1;
-    lanes = 5;
     currentLane = 0;
     frog.style.top = `${game.clientHeight - laneHeight}px`;
     scoreDisplay.textContent = `PUNTUACIÓN: ${score}`;
@@ -234,11 +239,9 @@
         if (gameRunning) {
           score++;
           scoreDisplay.textContent = `PUNTUACIÓN: ${score}`;
-          if (score % 10 === 0 && lanes < 10) {
+          if (score % 10 === 0) {
             level++;
-            lanes++;
             levelDisplay.textContent = `NIVEL: ${level}`;
-            updateLaneBackground();
           }
         }
       }
@@ -249,10 +252,12 @@
     spawnInterval = setInterval(spawnObstacle, Math.max(500, 1800 - level * 100));
   }
 
-  // Iniciar música tras interacción del usuario
   function tryPlayMusic() {
-    bgMusic.muted = false;
-    bgMusic.play().catch(() => {});
+    if (bgMusic.muted) {
+      bgMusic.muted = false;
+      bgMusic.play().catch(() => {});
+      audioMessage.style.display = "none";
+    }
   }
 
   document.addEventListener("keydown", e => {
@@ -266,7 +271,6 @@
 
   window.addEventListener("click", tryPlayMusic);
 
-  // Inicio
   frog.style.top = `${game.clientHeight - laneHeight}px`;
   updateLaneBackground();
   startSpawning();
@@ -274,3 +278,4 @@
 
 </body>
 </html>
+

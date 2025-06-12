@@ -7,7 +7,6 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Press Start 2P', monospace;
       background: linear-gradient(to bottom, #001f3f, #0074D9);
       color: white;
@@ -40,10 +39,10 @@
       left: 50px;
       width: 40px;
       height: 40px;
-      background-color: limegreen;
-      border-radius: 50%;
-      background-image: url('FROG_SPRITE_URL'); /* Reemplaza con imagen de rana 8bit */
-      background-size: cover;
+      background-image: url('rfami.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     .obstacle {
@@ -51,9 +50,8 @@
       width: 40px;
       height: 40px;
       background-color: red;
-      background-image: url('CAR_SPRITE_URL'); /* Reemplaza con imagen de coche 8bit */
       background-size: cover;
-      left: 600px;
+      background-position: center;
     }
 
     #score, #level {
@@ -102,7 +100,6 @@
 
 <div id="score">PUNTUACIÓN: 0</div>
 <div id="level">NIVEL: 1</div>
-
 <div id="audio-message">🎵 Haz clic o presiona una tecla para activar el sonido</div>
 
 <div id="game">
@@ -131,15 +128,6 @@
   let gamePaused = false;
   let obstacles = [];
 
-  function updateLaneBackground() {
-    let laneColors = [];
-    for (let i = 0; i < lanes; i++) {
-      const percentTop = ((i + 1) / lanes) * 100;
-      laneColors.push(`#111 ${100 - percentTop}%`);
-    }
-    game.style.background = `linear-gradient(to top, ${laneColors.join(", ")})`;
-  }
-
   function resetGame() {
     score = 0;
     level = 1;
@@ -152,7 +140,6 @@
     gameRunning = true;
     gamePaused = false;
     clearObstacles();
-    updateLaneBackground();
     startSpawning();
   }
 
@@ -179,13 +166,12 @@
   function togglePause() {
     if (!gameRunning) return;
     gamePaused = !gamePaused;
+    pauseText.style.display = gamePaused ? "block" : "none";
 
     if (gamePaused) {
-      pauseText.style.display = "block";
       clearInterval(spawnInterval);
       obstacles.forEach(obj => clearInterval(obj.interval));
     } else {
-      pauseText.style.display = "none";
       startSpawning();
       obstacles.forEach(obj => startObstacleMovement(obj));
     }
@@ -262,7 +248,6 @@
 
   document.addEventListener("keydown", e => {
     tryPlayMusic();
-
     if (e.code === "ArrowUp" && gameRunning && !gamePaused) moveFrogUp();
     else if (e.code === "ArrowDown" && gameRunning && !gamePaused) moveFrogDown();
     else if (e.code === "KeyP") togglePause();
@@ -272,10 +257,10 @@
   window.addEventListener("click", tryPlayMusic);
 
   frog.style.top = `${game.clientHeight - laneHeight}px`;
-  updateLaneBackground();
   startSpawning();
 </script>
 
 </body>
 </html>
+
 
